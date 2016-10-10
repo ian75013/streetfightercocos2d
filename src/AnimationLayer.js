@@ -6,9 +6,9 @@
     var animFramesMove=[];
     var animFramesStand=[];
     var animFramesJump=[];
-    var strMove;
-    var strJump;
-    var strStand;
+    var strMove=[];
+    var strJump=[];
+    var strStand=[];
     var frameMove;
     var frameJump;
     var frameStand;
@@ -17,9 +17,11 @@
     var animation;
     var xpos=0;
     var ypos=0;
+    var moveAction;
+    var jumpAction;
+    var standAction;
     var AnimationLayer = cc.Layer.extend({
     spriteSheet: null,
-    runningAction: null,
     sprite: null,
     
     ctor:function () {
@@ -75,32 +77,57 @@
         for (var i = 10; i < 21; i++) 
              {
                 strMove = "ken_" + i + ".png";
+                frameMove = cc.spriteFrameCache.getSpriteFrame(strMove);
+                animFramesMove.push(frameMove);
              }
 		
+        /*for (var i = 20; i >=10; i--) 
+             {
+                strMove = "ken_" + i + ".png";
+             }
+		*/
+
         for (var i = 34; i < 49; i++) 
+         {
+                strJump = "ken_" + i + ".png";
+                frameJump = cc.spriteFrameCache.getSpriteFrame(strJump);
+                animFramesJump.push(frameJump);
+         }
+        
+        /*for (var i = 48; i >= 34; i--) 
              {
                 strJump = "ken_" + i + ".png";
              }
-        
+        */
+
         for (var i = 1; i < 9; i++) 
              {
 				strStand = "ken_0" + i + ".png";
+                frameStand = cc.spriteFrameCache.getSpriteFrame(strStand);
+                animFramesStand.push(frameStand);
+            
              }
        
+       /*for (var i = 8; i >= 1; i--) 
+             {
+				strStand = "ken_0" + i + ".png";
+             }
+       */
        
        
-		    console.log("Here is the problem");
-            frameMove = cc.spriteFrameCache.getSpriteFrame(strMove);
-            animFramesMove.push(frameMove);
+		    
             animationMove = new cc.Animation(animFramesMove, 0.1);
+            moveAction = new cc.RepeatForever(new cc.Animate(animationMove))
+                
         
-            frameJump = cc.spriteFrameCache.getSpriteFrame(strJump);
-            animFramesJump.push(frameJump);
+            
             animationJump = new cc.Animation(animFramesJump, 0.1);
-     
-            frameStand = cc.spriteFrameCache.getSpriteFrame(strStand);
-            animFramesStand.push(frameStand);
+            jumpAction = new cc.RepeatForever(new cc.Animate(animationJump));
+                   
+
             animation = new cc.Animation(animFramesStand, 0.1);
+            standAction = new cc.RepeatForever(new cc.Animate(animation));
+       
             this.sprite = new cc.Sprite("#ken_01.png");
             this.sprite.attr({x:80, y:85});
             this.spriteSheet.addChild(this.sprite);
@@ -116,30 +143,32 @@
           
               if(moveLeft==true)
               {
-                   this.runningAction = new cc.RepeatForever(new cc.Animate(animationMove))
-                   this.sprite.runAction(this.runningAction);
+                    this.sprite.runAction(moveAction);
                     xpos-=1;
                    this.sprite.setPosition(80+xpos,85);
         
               }
               if(moveRight==true)
               {
-                   this.runningAction = new cc.RepeatForever(new cc.Animate(animationMove))
-                   this.sprite.runAction(this.runningAction);
+                   this.sprite.runAction(moveAction);
                    xpos+=1;
                    this.sprite.setPosition(80+xpos,85);
         
               }
               if(Jump==true)
               {
-                   this.runningAction = new cc.RepeatForever(new cc.Animate(animationJump));
-                   this.sprite.runAction(this.runningAction);
+                   this.sprite.runAction(jumpAction);
+                   for(var i=1;i<80;i++)
+                   {
+                       if(i<40) this.sprite.setPosition(80+xpos,85+i);
+                       else this.sprite.setPosition(80+xpos,85+80-i);
+                   }
+
                    
               }
               if(moveLeft==false && moveRight==false && Jump==false && CrouchDown==false)
               {
-                   this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-                   this.sprite.runAction(this.runningAction);
+                   this.sprite.runAction(standAction);
               }
               
               //this.runningAction = new cc.RepeatForever(new cc.Animate(animationJump))
