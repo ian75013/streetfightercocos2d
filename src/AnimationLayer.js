@@ -25,7 +25,7 @@
     var animation;
     var xpos=0;
     var ypos=0;
-    var jumppos=0;
+    var onjump=false;
     var moveActionLeft;
     var moveActionRight;
     var jumpAction;
@@ -179,7 +179,8 @@
                        firstTimeMoveLeft=false;
                    }
                    xpos-=1;
-                  
+                   if(ypos!=0) {ypos-=1;}
+                   this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+ypos+85);
                   
               }
               else if(moveRight==true)
@@ -210,7 +211,8 @@
                        firstTimeMoveRight=false;
                    }
                    xpos+=1;
-                   
+                   if(ypos!=0) {ypos-=1;}
+                   this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+ypos+85); 
   
               }
               else if(Jump==true)
@@ -238,7 +240,10 @@
                       this.sprite.runAction(jumpAction);
                       firstTimeJump=false;
                   }
-                  
+                  onjump=true;
+                  if(ypos<80 && onjump==true) { ypos+=1;}
+                  if(ypos==80) {onjump=false;}
+                  this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+ypos+85);           
               }
               else if(moveLeft==false && moveRight==false && Jump==false && CrouchDown==false)
               {
@@ -266,10 +271,12 @@
                   this.sprite.runAction(standAction);
                   firstTimeStand=false;
                   } 
-                  
+
+                 if(ypos!=0) {ypos-=1;}
+                 this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+ypos+85);
+          
               }
-               this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+85);
-              //this.runningAction = new cc.RepeatForever(new cc.Animate(animationJump))
+                     //this.runningAction = new cc.RepeatForever(new cc.Animate(animationJump))
         }
     
 });
