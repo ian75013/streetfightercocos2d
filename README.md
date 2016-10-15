@@ -6,6 +6,8 @@ You have to clone cocos2d-js library in the frameworks directory to make it work
 
 from the github command
 
+$git clone https://github.com/ian75013/streetfightercocos2d.git
+
 $cd frameworks
 
 $rm -rf cocos2d-html5
