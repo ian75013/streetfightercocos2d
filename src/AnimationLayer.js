@@ -1,23 +1,33 @@
-	var moveLeft=false;
+    var firstTimeMoveLeft=true;
+    var firstTimeMoveRight=true;
+    var firstTimeJump=true;
+    var firstTimeStand=true;
+    var moveLeft=false;
     var moveRight=false;
     var Jump=false;
     var CrouchDown=false;
     var animFrames=[];
-    var animFramesMove=[];
+    var animFramesMoveRight=[];
+    var animFramesMoveLeft=[];
     var animFramesStand=[];
     var animFramesJump=[];
-    var strMove=[];
+    var strMoveRight=[];
+    var strMoveLeft=[];
     var strJump=[];
     var strStand=[];
-    var frameMove;
+    var frameMoveRight;
+    var frameMoveLeft;
     var frameJump;
     var frameStand;
     var animationJump;
-    var animationMove;
+    var animationMoveLeft;
+    var animationMoveRight;
     var animation;
     var xpos=0;
     var ypos=0;
-    var moveAction;
+    var jumppos=0;
+    var moveActionLeft;
+    var moveActionRight;
     var jumpAction;
     var standAction;
     var AnimationLayer = cc.Layer.extend({
@@ -76,16 +86,19 @@
      
         for (var i = 10; i < 21; i++) 
              {
-                strMove = "ken_" + i + ".png";
-                frameMove = cc.spriteFrameCache.getSpriteFrame(strMove);
-                animFramesMove.push(frameMove);
+                strMoveLeft = "ken_" + i + ".png";
+                frameMoveLeft = cc.spriteFrameCache.getSpriteFrame(strMoveLeft);
+                animFramesMoveLeft.push(frameMoveLeft);
              }
 		
-        /*for (var i = 20; i >=10; i--) 
+        for (var i = 20; i >=10; i--) 
              {
-                strMove = "ken_" + i + ".png";
+                strMoveRight = "ken_" + i + ".png";
+                frameMoveRight = cc.spriteFrameCache.getSpriteFrame(strMoveRight);
+                animFramesMoveRight.push(frameMoveRight);
+        
              }
-		*/
+		
 
         for (var i = 34; i < 49; i++) 
          {
@@ -94,30 +107,28 @@
                 animFramesJump.push(frameJump);
          }
         
-        /*for (var i = 48; i >= 34; i--) 
-             {
+        for (var i = 48; i >= 34; i--) 
+         {
                 strJump = "ken_" + i + ".png";
-             }
-        */
+                frameJump = cc.spriteFrameCache.getSpriteFrame(strJump);
+                animFramesJump.push(frameJump);
+           
+         }
+        
 
-        for (var i = 1; i < 9; i++) 
+        for (var i = 1; i < 10; i++) 
              {
-				strStand = "ken_0" + i + ".png";
-                frameStand = cc.spriteFrameCache.getSpriteFrame(strStand);
-                animFramesStand.push(frameStand);
-            
+			       strStand = "ken_0" + i + ".png";
+                    frameStand = cc.spriteFrameCache.getSpriteFrame(strStand);
+                    animFramesStand.push(frameStand);
              }
        
-       /*for (var i = 8; i >= 1; i--) 
-             {
-				strStand = "ken_0" + i + ".png";
-             }
-       */
-       
-       
-		    
-            animationMove = new cc.Animation(animFramesMove, 0.1);
-            moveAction = new cc.RepeatForever(new cc.Animate(animationMove))
+      	    
+            animationMoveLeft = new cc.Animation(animFramesMoveLeft, 0.1);
+            moveActionLeft = new cc.RepeatForever(new cc.Animate(animationMoveLeft));
+
+            animationMoveRight = new cc.Animation(animFramesMoveRight, 0.1);
+            moveActionRight = new cc.RepeatForever(new cc.Animate(animationMoveRight));
                 
         
             
@@ -143,34 +154,121 @@
           
               if(moveLeft==true)
               {
-                    this.sprite.runAction(moveAction);
-                    xpos-=1;
-                   this.sprite.setPosition(80+xpos,85);
-        
-              }
-              if(moveRight==true)
-              {
-                   this.sprite.runAction(moveAction);
-                   xpos+=1;
-                   this.sprite.setPosition(80+xpos,85);
-        
-              }
-              if(Jump==true)
-              {
-                   this.sprite.runAction(jumpAction);
-                   for(var i=1;i<80;i++)
+                   if(firstTimeJump==false)
                    {
-                       if(i<40) this.sprite.setPosition(80+xpos,85+i);
-                       else this.sprite.setPosition(80+xpos,85+80-i);
+                       this.sprite.stopAction(jumpAction);
+                       firstTimeJump=true;
+               
                    }
-
                    
+                   if(firstTimeStand==false)
+                   {
+                       this.sprite.stopAction(standAction);
+                       firstTimeStand=true;
+               
+                   }
+                   if(firstTimeMoveRight==false)
+                   {
+                       this.sprite.stopAction(moveActionRight);
+                       firstTimeMoveRight=true;
+                   }
+                   
+                   if(firstTimeMoveLeft==true)
+                   {
+                       this.sprite.runAction(moveActionLeft);
+                       firstTimeMoveLeft=false;
+                   }
+                   xpos-=1;
+                  
+                  
               }
-              if(moveLeft==false && moveRight==false && Jump==false && CrouchDown==false)
+              else if(moveRight==true)
               {
-                   this.sprite.runAction(standAction);
+                   if(firstTimeJump==false)
+                   {
+                       this.sprite.stopAction(jumpAction);
+                       firstTimeJump=true;
+               
+                   }
+                   
+                   if(firstTimeStand==false)
+                   {
+                       this.sprite.stopAction(standAction);
+                       firstTimeStand=true;
+               
+                   }
+                   if(firstTimeMoveLeft==false)
+                   {
+                       this.sprite.stopAction(moveActionLeft);
+                       firstTimeMoveLeft=true;
+               
+                   }
+                   
+                   if(firstTimeMoveRight==true)
+                   {
+                       this.sprite.runAction(moveActionRight);
+                       firstTimeMoveRight=false;
+                   }
+                   xpos+=1;
+                   
+  
               }
-              
+              else if(Jump==true)
+              {
+                   if(firstTimeStand==false)
+                   {
+                       this.sprite.stopAction(standAction);
+                       firstTimeStand=true;
+               
+                   }
+                   if(firstTimeMoveLeft==false)
+                   {
+                       this.sprite.stopAction(moveActionLeft);
+                       firstTimeMoveLeft=true;
+               
+                   }
+                   
+                   if(firstTimeMoveRight==false)
+                   {
+                       this.sprite.stopAction(moveActionRight);
+                       firstTimeMoveRight=true;
+                   }
+                  if(firstTimeJump==true)
+                  {
+                      this.sprite.runAction(jumpAction);
+                      firstTimeJump=false;
+                  }
+                  
+              }
+              else if(moveLeft==false && moveRight==false && Jump==false && CrouchDown==false)
+              {
+                   if(firstTimeJump==false)
+                   {
+                       this.sprite.stopAction(jumpAction);
+                       firstTimeJump=true;
+               
+                   }
+                   if(firstTimeMoveLeft==false)
+                   {
+                       this.sprite.stopAction(moveActionLeft);
+                       firstTimeMoveLeft=true;
+               
+                   }
+                   
+                   if(firstTimeMoveRight==false)
+                   {
+                       this.sprite.stopAction(moveActionRight);
+                       firstTimeMoveRight=true;
+                   }
+                  
+                  if(firstTimeStand==true)
+                  {
+                  this.sprite.runAction(standAction);
+                  firstTimeStand=false;
+                  } 
+                  
+              }
+               this.sprite.setPosition(this.getPosition().x+xpos+120,this.getPosition().y+85);
               //this.runningAction = new cc.RepeatForever(new cc.Animate(animationJump))
         }
     
