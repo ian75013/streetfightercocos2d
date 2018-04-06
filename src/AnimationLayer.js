@@ -216,14 +216,13 @@ var AnimationLayer = cc.Layer.extend({
     update: function (dt) {
 
         if (moveLeft == true) {
-            if(firstTimeStand==false)
-            {
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
-       
+
             if (firstTimeJump == false) {
                 this.sprite.stopAction(jumpAction);
                 firstTimeJump = true;
@@ -261,15 +260,14 @@ var AnimationLayer = cc.Layer.extend({
 
         }
         else if (moveRight == true) {
-            
-            if(firstTimeStand==false)
-            {
+
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
-            
+
 
             if (firstTimeJump == false) {
                 this.sprite.stopAction(jumpAction);
@@ -310,11 +308,10 @@ var AnimationLayer = cc.Layer.extend({
 
         }
         else if (CrouchDown == true) {
-            if(firstTimeStand==false)
-            {
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
             if (firstTimeJump == false) {
@@ -351,11 +348,10 @@ var AnimationLayer = cc.Layer.extend({
         }
 
         else if (Up == true) {
-            if(firstTimeStand==false)
-            {
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
             if (firstTimeJump == false) {
@@ -392,11 +388,10 @@ var AnimationLayer = cc.Layer.extend({
         }
 
         else if (Hadoken == true) {
-            if(firstTimeStand==false)
-            {
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
             if (firstTimeJump == false) {
@@ -436,14 +431,13 @@ var AnimationLayer = cc.Layer.extend({
 
 
         else if (Jump == true) {
-            if(firstTimeStand==false)
-            {
+            if (firstTimeStand == false) {
 
                 this.sprite.stopAction(standAction);
-                firstTimeStand=true;
+                firstTimeStand = true;
 
             }
-       
+
             if (firstTimeMoveLeft == false) {
                 this.sprite.stopAction(moveActionLeft);
                 firstTimeMoveLeft = true;
@@ -496,14 +490,13 @@ var AnimationLayer = cc.Layer.extend({
                 this.sprite.stopAction(moveActionRight);
                 firstTimeMoveRight = true;
             }
-            if(firstTimeStand==true)
-            {
+            if (firstTimeStand == true) {
 
                 this.sprite.runAction(standAction);
-                firstTimeStand=false;
+                firstTimeStand = false;
 
             }
-       
+
 
 
             if (firstTimeUp == false) {
