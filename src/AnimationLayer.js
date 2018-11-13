@@ -115,7 +115,45 @@ var AnimationLayer = cc.Layer.extend({
                 }
             }
         }, this)
+        topLayer = cc.Layer.create()
+        this.addChild(topLayer)
 
+        var touchListener = cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function (touch, event) {
+              if(touch.getLocation().x < 240){
+                self.moveLeft = true;
+                left.setOpacity(255);
+                right.setOpacity(128);
+              }
+              else{
+                self.moveRight = true;
+                right.setOpacity(255);
+                left.setOpacity(128);
+              }
+              return true;
+            },
+            onTouchEnded:function (touch, event) {
+              self.moveLeft = false;
+              self.moveRight = false;
+              left.setOpacity(128);
+              right.setOpacity(128);
+            }
+          })
+
+        left = cc.Sprite.create("res/leftbutton.png");
+        topLayer.addChild(left,0);
+        left.setPosition(40,160)
+        left.setOpacity(128)
+        right = cc.Sprite.create("res/rightbutton.png");
+        topLayer.addChild(right,0);
+        right.setPosition(440,160);
+        right.setOpacity(128)
+        //this.schedule(this.addItem,1);
+        cc.eventManager.addListener(touchListener, this);
+        
+        
         // create sprite sheet
         cc.spriteFrameCache.addSpriteFrames(res.runner_plist);
         this.spriteSheet = new cc.SpriteBatchNode(res.runner_png);
